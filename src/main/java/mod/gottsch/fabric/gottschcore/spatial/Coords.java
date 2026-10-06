@@ -388,6 +388,10 @@ public class Coords implements ICoords {
         return new ChunkPos(toPos());
     }
 
+    public Vec3d toVec3() {
+        return toVec3d();
+    }
+
     @Override
     public Vec3d toVec3d() {
         return new Vec3d(getX(), getY(), getZ());

@@ -23,6 +23,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.Direction;
 
 /**
@@ -50,6 +51,11 @@ public class FacingBlock extends Block implements IFacingBlock {
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
 		return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+	}
+
+	@Override
+	protected BlockState rotate(BlockState state, BlockRotation rot) {
+		return state.with(FACING, rot.rotate(getFacing(state)));
 	}
 
 	/**

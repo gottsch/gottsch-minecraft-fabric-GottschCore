@@ -22,6 +22,8 @@ package mod.gottsch.fabric.gottschcore.spatial;
 
 import net.minecraft.nbt.NbtCompound;
 
+import java.util.Objects;
+
 /**
  *  GottschCore replacement for AABB.
  * @author Mark Gottschling on Oct 30, 2021
@@ -148,5 +150,22 @@ public class Box {
     @Override
     public String toString() {
         return "Box [minCoords=" + minCoords.toShortString() + ", maxCoords=" + maxCoords.toShortString() + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(maxCoords, minCoords);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Box other = (Box) obj;
+        return Objects.equals(maxCoords, other.maxCoords) && Objects.equals(minCoords, other.minCoords);
     }
 }

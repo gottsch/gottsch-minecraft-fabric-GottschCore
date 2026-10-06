@@ -85,3 +85,20 @@ publishing {
 		}
 	}
 }
+// Publish to BOTH targets in one go.
+//
+// GottschCore is consumed from two different repositories and the consuming projects do not agree
+// on which: a project's build.gradle typically lists mavenLocal() AND file://.../git/maven, and the
+// first one holding the coordinate wins. So publishing to only one leaves the other serving a stale
+// jar, and a downstream mod silently keeps building against old code -- with nothing to notice,
+// because the version number does not change when the contents do.
+//
+//   ./gradlew publishAll
+//
+// AND VERIFY THE JAR CONTENTS, not the version. The published jar is remapped to intermediary names
+// (class_xxxx / method_xxxx), so check GottschCore's own class names with `unzip -l`, not Minecraft names.
+tasks.register('publishAll') {
+	group = 'publishing'
+	description = 'Publishes to the shared ../maven repo AND to mavenLocal, so neither can go stale.'
+	dependsOn 'publish', 'publishToMavenLocal'
+}

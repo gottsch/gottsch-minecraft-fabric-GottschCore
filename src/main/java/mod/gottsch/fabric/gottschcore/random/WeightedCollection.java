@@ -90,6 +90,23 @@ public class WeightedCollection<W extends Number, T> {
 		if (map == null) return 0;
 		return map.size();
 	}
+
+	public boolean isEmpty() {
+		return size() == 0;
+	}
+
+	public synchronized WeightedCollection<W, T> remove(T item) {
+		NavigableMap<Double, T> newMap = new TreeMap<>();
+		// cycle through map entries
+		map.forEach((k, v) -> {
+			if (!v.equals(item)) {
+				newMap.put(k, v);
+			}
+		});
+		map.clear();
+		map.putAll(newMap);
+		return this;
+	}
 	
 	/**
 	 * @return the random
